@@ -52,6 +52,27 @@ func (t *Tile) Bounds() *LngLatBbox {
 	}
 }
 
+func (t *Tile) XYBounds() *Bbox {
+	nt := &Tile{
+		X: t.X + 1,
+		Y: t.Y + 1,
+		Z: t.Z,
+	}
+
+	leftTopLngLat := t.UpperLeft()
+	rightBottomLngLat := nt.UpperLeft()
+
+	leftTopXY := leftTopLngLat.XY(false)
+	rightBottomXY := rightBottomLngLat.XY(false)
+
+	return &Bbox{
+		Left:   leftTopXY.X,
+		Bottom: rightBottomXY.Y,
+		Right:  rightBottomXY.X,
+		Top:    leftTopXY.Y,
+	}
+}
+
 func (t *Tile) UpperLeft() *LngLat {
 	n := math.Pow(2.0, float64(t.Z))
 	lonDeg := float64(t.X)/n*360.0 - 180.0

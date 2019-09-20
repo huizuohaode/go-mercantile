@@ -22,6 +22,23 @@ func TestBounds(t *testing.T) {
 	})
 }
 
+func TestTile_XYBounds(t *testing.T) {
+	t.Run("Get the web mercator bounding box of a tile", func(t *testing.T) {
+		tile := &mercantile.Tile{
+			X: 486,
+			Y: 332,
+			Z: 10,
+		}
+
+		bbox := tile.XYBounds()
+
+		assert.Equal(t, -1017529.7205322662, bbox.Left)
+		assert.Equal(t, 7005300.768279833, bbox.Bottom)
+		assert.Equal(t, -978393.962050256, bbox.Right)
+		assert.Equal(t, 7044436.526761842, bbox.Top)
+	})
+}
+
 func TestUpperLeft(t *testing.T) {
 	t.Run("Get the upper left longitude and latitude of a tile", func(t *testing.T) {
 		tile := &mercantile.Tile{
